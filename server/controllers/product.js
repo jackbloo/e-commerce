@@ -5,33 +5,32 @@ class ProductController {
         let {
             name,
             price,
-            image,
-            quantity
+            stock
         } = req.body
+        let image = req.file.cloudStoragePublicUrl
         Product.create({
             name,
             price,
             image,
-            quantity
+            stock
         }).then(data => {
             res.status(201).json({
                 data
             })
         }).catch(err => {
-            res.status(500)
             next(err)
         })
     }
 
     static getProducts(req, res, next) {
-        Product.find()
+        Product.find().sort({createdAt:-1})
             .then(data => {
                 res.status(200).json({
                     data
-                }).catch(err => {
-                    res.status(404)
-                    next(err)
                 })
+            }).catch(err => {
+                res.status(404)
+                next(err)
             })
     }
 
@@ -57,8 +56,8 @@ class ProductController {
         let updatedData = {}
         req.body.name && (updatedData.name = req.body.name)
         req.body.price && (updatedData.price = req.body.price)
-        req.body.image && (updatedData.image = req.body.image)
-        req.body.quantity && (updatedData.quantity = req.body.quantity)
+        req.file.cloudStoragePublicUrl && (updatedData.image = req.file.cloudStoragePublicUrl)
+        req.body.stock && (updatedData.stock = req.body.stock)
         Product.findByIdAndUpdate(
             id,
             updatedData, {
@@ -67,8 +66,7 @@ class ProductController {
             }
         ).then(data => {
             res.status(200).json({
-                data,
-                message: 'Data is successfully updated'
+                data
             })
         }).catch(err => {
             res.status(404)

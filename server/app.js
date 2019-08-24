@@ -12,7 +12,7 @@ app.use(cors())
 app.use(morgan('dev'))
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
-mongoose.connect('mongodb+srv://catlover:iqbal14@cluster0-trxl7.gcp.mongodb.net/e-commerce-dev?retryWrites=true&w=majority', {useNewUrlParser: true})
+mongoose.connect(process.env.LINK, {useNewUrlParser: true})
 .then(data => {
     console.log('success')
 }).catch(err => {
