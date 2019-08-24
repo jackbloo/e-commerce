@@ -23,7 +23,9 @@ class ProductController {
     }
 
     static getProducts(req, res, next) {
-        Product.find().sort({createdAt:-1})
+        Product.find().sort({
+                createdAt: -1
+            })
             .then(data => {
                 res.status(200).json({
                     data
@@ -54,10 +56,17 @@ class ProductController {
             id
         } = req.params
         let updatedData = {}
-        req.body.name && (updatedData.name = req.body.name)
-        req.body.price && (updatedData.price = req.body.price)
-        req.file.cloudStoragePublicUrl && (updatedData.image = req.file.cloudStoragePublicUrl)
-        req.body.stock && (updatedData.stock = req.body.stock)
+        if (req.file) {
+            req.body.name && (updatedData.name = req.body.name)
+            req.body.price && (updatedData.price = req.body.price)
+            req.file.cloudStoragePublicUrl && (updatedData.image = req.cloudStoragePublicUrl )
+            req.body.stock && (updatedData.stock = req.body.stock)
+        } else {
+            req.body.name && (updatedData.name = req.body.name)
+            req.body.price && (updatedData.price = req.body.price)
+            req.body.image && (updatedData.image = req.body.image)
+            req.body.stock && (updatedData.stock = req.body.stock)
+        }
         Product.findByIdAndUpdate(
             id,
             updatedData, {
@@ -74,8 +83,10 @@ class ProductController {
         })
     }
 
-    static getOne(req,res,next){
-        let {id} = req.params
+    static getOne(req, res, next) {
+        let {
+            id
+        } = req.params
         Product.findById(id)
             .then(data => {
                 res.status(200).json({

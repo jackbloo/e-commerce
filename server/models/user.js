@@ -9,24 +9,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
-        validate:{
-            validator: function(value){
-                return new Promise((req,res)=>{
-                    users.findOne({
-                        email: value,
-                        _id: {
-                            $ne: this._id
-                        }
-                    }).then(found => {
-                        if(found){
-                            resolve(false)
-                        } else {
-                            resolve(true)
-                        }
-                    })
-                })
-            }
-        }
+        unique:true
     },
     password: {
         type: String,

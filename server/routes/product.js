@@ -10,7 +10,7 @@ router.get('/:id',authentication, productController.getOne)
 router.post('/create', authentication, authorization, images.multer.single('image'), 
 images.sendUploadToGCS,productController.createProduct)
 router.delete('/:id', authentication, authorization, productController.deleteProduct)
-router.patch('/update/:id', authentication, authorization,images.multer.single('image'), 
+router.patch('/:id', authentication, authorization,images.multer.single('image'), 
 images.sendUploadToGCS, productController.updateProduct)
 
 

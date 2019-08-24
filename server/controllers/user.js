@@ -57,7 +57,7 @@ class UserController {
             password
         } = req.body
         User.findOne({
-            email: email
+            email
         }).then(user => {
             if (user) {
                 if (decrypt(password, user.password)) {
@@ -71,34 +71,32 @@ class UserController {
                         token
                     })
                 }
+            } else {
+                res.status(404).json({
+                    message:'user not found'
+                })
             }
-        }).catch(err => {
-            console.log(err)
-        })
+        }).catch(next)
     }
     static register(req, res, next) {
         let {
             email,
             password,
-            name,
-            address
+            name
         } = req.body
         User.create({
                 name,
                 email,
                 password: encrypt(password),
-                address
             }).then(data => {
                 res.status(201).json({
                     data
                 })
             })
             .catch(err => {
-                res.status(500)
                 next(err)
             })
     }
-
 
 
 

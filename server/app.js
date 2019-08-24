@@ -19,12 +19,14 @@ mongoose.connect(process.env.LINK, {useNewUrlParser: true})
     console.log('error')
 })
 app.use('/', routes)
-
 app.use(function(err,req,res,next){
-    res.json({
-        status: res.status || 500,
-        message: err.message || 'Error'
-    })
+    let stats;
+    let msg;
+    if(err.code == 11000){
+        stats = 400
+         msg = 'Email is Registered'
+    }
+    res.status(stats || 500).send({ error: msg })
 })
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 

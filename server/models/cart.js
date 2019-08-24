@@ -11,7 +11,8 @@ const cartSchema = new Schema({
         default:false
     },
     productId: {type: Schema.Types.ObjectId, ref: 'products'},
-    UserId: {type: Schema.Types.ObjectId, ref: 'users' }
+    UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+    transactionId: {type: Schema.Types.ObjectId, ref: 'transactions'}
 },{
     timestamps: true,
     versionKey: false
