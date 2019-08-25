@@ -21,13 +21,18 @@
             <tr v-for="(h,i) in adHistories" :key="i">
               <td>{{h._id}}</td>
               <td>{{Number(h.total_price).toLocaleString('en-ID', {style: 'currency', currency: 'IDR'})}}</td>
-              <td v-if="!h.send_status" @click="confirmation(h._id)"><button>confirm</button></td>
+              <td v-if="!h.send_status" @click="confirmation(h._id)">
+                <button>confirm</button>
+              </td>
               <td v-else>Sent!</td>
               <td v-if="!h.send_status">
-                <button disabled>Still waiting</button>
+                <button disabled>Waiting to be Sent</button>
+              </td>
+              <td v-else-if="h.send_status && !h.arrived_status">
+                <button disabled>Waiting to arrive</button>
               </td>
               <td v-else>
-                <button disabled> Arrived :)</button>
+                <button disabled>Arrived :)</button>
               </td>
             </tr>
           </tbody>
@@ -44,7 +49,7 @@
 <script>
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
-import axios from 'axios'
+import axios from "axios";
 export default {
   data: () => ({
     dialog: false
@@ -66,7 +71,7 @@ export default {
             let token = localStorage.getItem("tokenAdmin");
             axios({
               method: "PATCH",
-              url: `http://localhost:3000/transaction/${id}`,
+              url: `http://35.225.201.56/transaction/${id}`,
               headers: {
                 token
               },
@@ -74,8 +79,8 @@ export default {
                 send_status: true
               }
             }).then(({ data }) => {
-            Swal.fire("Confirmed!", "Confirmation Success!", "success");
-            this.$store.dispatch("getAllHist");
+              Swal.fire("Confirmed!", "Confirmation Success!", "success");
+              this.$store.dispatch("getAllHist");
             });
           }
         })
