@@ -2,11 +2,11 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn text color="primary" dark v-on="on">History</v-btn>
+        <v-btn text color="primary" dark v-on="on">Admin History</v-btn>
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">History</span>
+          <span class="headline">Admin History</span>
         </v-card-title>
         <v-simple-table>
           <thead>
@@ -18,19 +18,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(h,i) in histories" :key="i">
+            <tr v-for="(h,i) in adHistories" :key="i">
               <td>{{h._id}}</td>
               <td>{{Number(h.total_price).toLocaleString('en-ID', {style: 'currency', currency: 'IDR'})}}</td>
-              <td v-if="!h.send_status">Your item is packed</td>
+              <td v-if="!h.send_status" @click="confirmation(h._id)"><button>confirm</button></td>
               <td v-else>Sent!</td>
               <td v-if="!h.send_status">
-                <button disabled>Please Wait :)</button>
-              </td>
-              <td v-else-if="h.send_status && !h.arrived_status">
-                <button @click="confirmation(h._id)">confirm</button>
+                <button disabled>Still waiting</button>
               </td>
               <td v-else>
-                <button>Thank you for your purchase!</button>
+                <button disabled> Arrived :)</button>
               </td>
             </tr>
           </tbody>
@@ -52,15 +49,12 @@ export default {
   data: () => ({
     dialog: false
   }),
-  computed: mapState(["histories"]),
+  computed: mapState(["adHistories"]),
   methods: {
-    getHistory() {
-      this.$store.dispatch("getHist");
-    },
     confirmation(id) {
       Swal.fire({
         title: "Do you want to confirm?",
-        text: "Please check the sent status!",
+        text: "Dont forget to keep smile :)",
         type: "question",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -69,7 +63,7 @@ export default {
       })
         .then(result => {
           if (result.value) {
-            let token = localStorage.getItem("access_token");
+            let token = localStorage.getItem("tokenAdmin");
             axios({
               method: "PATCH",
               url: `http://localhost:3000/transaction/${id}`,
@@ -77,21 +71,21 @@ export default {
                 token
               },
               data: {
-                arrived_status: true
+                send_status: true
               }
             }).then(({ data }) => {
-            Swal.fire("Confirmed!", "Thank you for Purchasing in our store!", "success");
-            this.$store.dispatch("getHist");
+            Swal.fire("Confirmed!", "Confirmation Success!", "success");
+            this.$store.dispatch("getAllHist");
             });
           }
         })
         .catch(err => {
-          Swal.fire("Error!", "Confirmation failed", "error");
+          Swal.fire("Error!", err.message, "error");
         });
     }
   },
   created() {
-    this.getHistory();
+    this.$store.dispatch("getAllHist");
   }
 };
 </script>

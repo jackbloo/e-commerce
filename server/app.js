@@ -4,7 +4,6 @@ if(!process.env.NODE_ENV || process.env.NODE_ENV === 'development' || process.en
 const express = require('express')
 const cors = require('cors');
 const app = express()
-const port = process.env.PORT || 3000
 const mongoose = require('mongoose');
 const morgan = require('morgan')
 const routes = require('./routes/index')
@@ -20,14 +19,20 @@ mongoose.connect(process.env.LINK, {useNewUrlParser: true})
 })
 app.use('/', routes)
 app.use(function(err,req,res,next){
-    let stats;
-    let msg;
+    const { start, httpStatus, message, previousError, stack } = err
+    
     if(err.code == 11000){
-        stats = 400
-         msg = 'Email is Registered'
+        httpStatus = 400
+         message = 'Email is Already Registered'
     }
-    res.status(stats || 500).send({ error: msg })
+    res.status(httpStatus || 406).json({
+      status: false,
+      code: httpStatus || 406,
+      message,
+      data: previousError,
+      error: stack
+    })
+
 })
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 module.exports = app;

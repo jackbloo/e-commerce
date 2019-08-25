@@ -110,7 +110,7 @@ export default {
     checkout(){
       let flag = false
       for(let i =0; i < this.addedCart.length; i++){
-        if(this.addedCart[i].quantity == 0){
+        if(this.addedCart[i].quantity <= 0){
             flag = true
         }
       }

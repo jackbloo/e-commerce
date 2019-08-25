@@ -19,6 +19,7 @@
           class="mx-4"
           dark
           icon
+          disabled
         >
           <v-icon size="24px">{{ icon }}</v-icon>
         </v-btn>
@@ -31,9 +32,6 @@
   export default {
     data: () => ({
       icons: [
-        'fab fa-facebook',
-        'fab fa-twitter',
-        'fab fa-instagram',
       ],
     }),
   }

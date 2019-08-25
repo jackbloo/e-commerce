@@ -12,7 +12,7 @@
           <createProducts></createProducts>
         </v-btn>
         <v-btn text>
-          <router-link to="/adminHistory">History</router-link>
+          <historyAdmin></historyAdmin>
         </v-btn>
         <v-btn text color="blue darken-1" @click="logouts">Logout</v-btn>
       </v-toolbar-items>
@@ -23,9 +23,11 @@
 <script>
 import Swal from 'sweetalert2'
 import createProducts from "../components/createProducts";
+import historyAdmin from '../components/historyAdmin'
 export default {
   components: {
-    createProducts
+    createProducts,
+    historyAdmin
   },
   methods: {
     logouts() {

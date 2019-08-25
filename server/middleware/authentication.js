@@ -6,9 +6,7 @@ function authentication(req,res,next){
         req.decode = decode
         next()
     } catch(err){
-        res.status(400).json({
-            message: 'Wrong token'
-        })
+        next(err)
     }
 }
 

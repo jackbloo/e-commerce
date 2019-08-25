@@ -21,12 +21,35 @@ class transactionsController {
         req.body.arrived_status  && (updatedData.arrived_status = req.body.arrived_status)
         transcations.findByIdAndUpdate(id, updatedData,{
             new: true,
-            runValidators: true
         }).then(data => {
+            console.log(data)
             res.status(200).json({
                 data
-            }).catch(next)
+            })
+        }).catch(next)
+    }
+
+    static getTransactionOne(req,res,next){
+        let {id} = req.decode
+        transcations.find({UserId: id}).sort({
+            createdAt: -1
         })
+        .then(data => {
+            res.status(200).json({
+                data
+            })
+        }).catch(next)
+    }
+
+    static getTransactions(req,res,next){
+        transcations.find().sort({
+            createdAt: -1
+        })
+        .then(data => {
+            res.status(200).json({
+                data
+            })
+        }).catch(next)
     }
 }
 

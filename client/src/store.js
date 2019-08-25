@@ -9,7 +9,8 @@ const store = new Vuex.Store({
   state: {
     products: [],
     carts: [],
-    histories: []
+    histories: [],
+    adHistories: []
   },
   mutations: {
     GETPRODUCTS(state, payload) {
@@ -20,13 +21,38 @@ const store = new Vuex.Store({
     },
     GETHIST(state,payload){
       state.histories = payload
+    },
+    GETALL(state,payload){
+      state.adHistories = payload
     }
   },
   actions: {
+    getAllHist({commit}){
+      let token = localStorage.getItem('tokenAdmin')
+      axios({
+        method:'GET',
+        url:'http://localhost:3000/transaction/',
+        headers: {
+          token
+        }
+      }).then(({data})=>{
+        commit('GETALL',data.data)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     getHist({commit}){
       let token = localStorage.getItem('access_token')
       axios({
-        method:''
+        method:'GET',
+        url: 'http://localhost:3000/transaction/one',
+        headers: {
+          token
+        }
+      }).then(({data}) => {
+        commit('GETHIST', data.data)
+      }).catch(err =>{
+        console.log(err)
       })
     },
     getProducts({

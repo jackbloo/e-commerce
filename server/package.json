@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "dev": "NODE_ENV=development nodemon app.js",
+    "dev": "NODE_ENV=development nodemon bin/httpserver.js",
     "test": "NODE_ENV=test mocha --exit"
   },
   "keywords": [],
