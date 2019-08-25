@@ -2,11 +2,10 @@
   <div>
     <v-toolbar>
       <v-toolbar-title><router-link to="/products">MC</router-link></v-toolbar-title>
-
       <v-spacer></v-spacer>
-
       <v-toolbar-items>
-        <v-btn><modalcart/></v-btn> 
+        <v-btn  ><historycart/></v-btn> 
+        <v-btn @click="cartGetter"><modalcart/></v-btn> 
         <v-btn text @click="changeToLogin"><router-link to="/">Signout</router-link></v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -15,13 +14,19 @@
 
 <script>
 import modalcart from './modalcart'
+import historycart from './historycart'
 export default {
     components:{
-        modalcart
+        modalcart,
+        historycart
     },
     methods: {
         changeToLogin(){
-            this.$emit('backToHome')
+          localStorage.removeItem('access_token')
+            this.$router.push('/').catch(err =>{})
+        },
+        cartGetter(){
+          this.$store.dispatch('getCart')
         }
     }
 }

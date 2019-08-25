@@ -67,17 +67,23 @@ export default {
       formData.set("price", this.price);
       formData.set("stock", this.stock);
       formData.set("name", this.name);
+      Swal.fire({
+        title: "Creating your product...",
+        allowOutsideClick: () => !Swal.isLoading()
+      });
+
       axios({
         method: "POST",
         url: "http://localhost:3000/products/create",
         headers: {
           token
         },
-         data: formData
+        data: formData
       })
         .then(({ data }) => {
+          Swal.close();
           this.dialog = false;
-          this.$store.dispatch('getProducts')
+          this.$store.dispatch("getProducts");
           Swal.fire({
             position: "center",
             type: "success",

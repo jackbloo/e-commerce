@@ -30,7 +30,12 @@ export default new Router({
     {
       path: '/products',
       name: 'products',
-      component: products
+      component: products,
+      children: [{
+        path: ':id',
+        name: 'oneProduct',
+        component: () => import(/* webpackChunkName: "oneProduct" */ './views/oneProduct.vue'),
+      }]
     },
     {
       path: '/adm1n',

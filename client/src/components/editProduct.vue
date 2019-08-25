@@ -71,13 +71,13 @@ export default {
       editData.set("stock", this.stock);
       editData.set("name", this.name);
       axios({
-        method: "PATCH",
-        url: `http://localhost:3000/products/update/${id}`,
-        headers: {
-          token,
-        },
-        data: editData
-      })
+          method:'patch',
+          url: `http://localhost:3000/products/${id}`,
+          headers: {
+            token
+          },
+          data: editData
+        })
         .then(({ data }) => {
           this.dialog = false;
           this.$store.dispatch("getProducts");

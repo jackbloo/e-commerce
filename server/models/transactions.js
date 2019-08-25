@@ -6,7 +6,15 @@ const transactionSchema = new Schema({
         type: Number,
         required: true
     },
-    UserId: {type: Schema.Types.ObjectId, ref: 'users' }
+    UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+    send_status: {
+        type: Boolean,
+        default: false
+    },
+    arrived_status: {
+        type: Boolean,
+        default:false
+    }
 },{
     timestamps: true,
     versionKey: false

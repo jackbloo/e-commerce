@@ -2,16 +2,9 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" width="600px">
       <template v-slot:activator="{ on }">
-          <v-btn text v-on="on"><router-link to="#">Cart</router-link></v-btn>
+          <v-btn text color="primary" v-on="on">Cart</v-btn>
       </template>
-      <v-card>
-       <tablecart/>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="dialog = false">Checkout</v-btn>
-          <v-btn color="green darken-1" text @click="dialog = false">Later</v-btn>
-        </v-card-actions>
-      </v-card>
+             <tablecart @keluarModal="outModal" />
     </v-dialog>
   </v-row>
 </template>
@@ -27,5 +20,10 @@ import tablecart from './tablecart'
         dialog: false,
       }
     },
+    methods: {
+      outModal(){
+        this.dialog = false
+      }
+    }
   }
 </script>
