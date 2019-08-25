@@ -26,7 +26,7 @@ export default {
       let token = localStorage.getItem('access_token')
       axios({
         method: "GET",
-        url: `http://localhost:3000/products/${id}`,
+        url: `http://35.225.201.56/products/${id}`,
         headers: {
             token
         }

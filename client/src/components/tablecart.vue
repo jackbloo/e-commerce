@@ -75,7 +75,7 @@ export default {
           let token = localStorage.getItem("access_token");
           axios({
             method: "DELETE",
-            url: `http://localhost:3000/carts/${id}`,
+            url: `http://35.225.201.56/carts/${id}`,
             headers: {
               token
             }
@@ -95,7 +95,7 @@ export default {
       let token = localStorage.getItem('access_token')
       axios({
         method: 'GET',
-        url: 'http://localhost:3000/carts/',
+        url: 'http://35.225.201.56/carts/',
         headers: {
           token
         }
@@ -133,7 +133,7 @@ export default {
             let id = this.addedCart[k].productId
             let qPromise = axios({
               method: 'PATCH',
-              url: `http://localhost:3000/products/${id}`,
+              url: `http://35.225.201.56/products/${id}`,
               headers: {
                 token
               },
@@ -153,7 +153,7 @@ export default {
             }
             axios({
               method:'POST',
-              url: 'http://localhost:3000/transaction/create',
+              url: 'http://35.225.201.56/transaction/create',
               headers: {
                 token
               },
@@ -170,7 +170,7 @@ export default {
                 let newPStock = this.addedCart[m].productStock - this.addedCart[m].quantity
                 let cartPromise = axios({
                   method: 'PATCH',
-                  url: `http://localhost:3000/carts/${id}`,
+                  url: `http://35.225.201.56/carts/${id}`,
                   headers: {
                     token
                   },
