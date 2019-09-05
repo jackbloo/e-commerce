@@ -64,7 +64,7 @@ export default {
     loginAdmin() {
       axios({
         method: "POST",
-        url: "http://35.225.201.56/admin/login",
+        url: "http://localhost:3000/admin/login",
         data: {
           username: this.username,
           password: this.password

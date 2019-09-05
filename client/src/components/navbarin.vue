@@ -6,7 +6,7 @@
       <v-toolbar-items>
         <v-btn ><historycart/></v-btn> 
         <v-btn @click="cartGetter"><modalcart/></v-btn> 
-        <v-btn text @click="changeToLogin"><router-link to="/">Signout</router-link></v-btn>
+        <v-btn text @click="changeToLogin">signOut</v-btn>
       </v-toolbar-items>
     </v-toolbar>
   </div>
@@ -23,7 +23,7 @@ export default {
     methods: {
         changeToLogin(){
           localStorage.removeItem('access_token')
-            this.$router.push('/').catch(err =>{})
+          this.$router.push('/').catch(err =>{})
         },
         cartGetter(){
           this.$store.dispatch('getCart')

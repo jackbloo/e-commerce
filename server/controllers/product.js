@@ -7,10 +7,12 @@ class ProductController {
             price,
             stock
         } = req.body
+        let featured_image = req.file.cloudStoragePublicUrl
         Product.create({
             name,
             price,
-            stock
+            stock,
+            featured_image
         }).then(data => {
             res.status(201).json({
                 data
@@ -62,7 +64,7 @@ class ProductController {
         } else {
             req.body.name && (updatedData.name = req.body.name)
             req.body.price && (updatedData.price = req.body.price)
-            // req.body.image && (updatedData.image = req.body.image)
+            req.body.image && (updatedData.image = req.body.image)
             req.body.stock && (updatedData.stock = req.body.stock)
         }
         Product.findByIdAndUpdate(

@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
-    <keep-alive><router-view/></keep-alive>
-    <footMe></footMe>  
+    <router-view />
+    <footMe></footMe>
   </v-app>
 </template>
 
@@ -17,13 +17,16 @@ export default {
     navbarin,
     footMe
   },
-  data: () => ({
-
-  }),
-  methods: {
+  data: () => ({}),
+  methods: {},
+  created() {
+    if (localStorage.getItem("access_token")) {
+      this.$router.push("/products").catch(err=>{})
+    } else {
+      this.$router.push("/").catch(err=>{})
+    }
   }
 };
 </script>
 <style scoped>
-
 </style>

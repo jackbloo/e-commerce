@@ -31,7 +31,7 @@ const store = new Vuex.Store({
       let token = localStorage.getItem('tokenAdmin')
       axios({
         method:'GET',
-        url:'http://35.225.201.56/transaction/',
+        url:'http://localhost:3000/transaction/',
         headers: {
           token
         }
@@ -45,7 +45,7 @@ const store = new Vuex.Store({
       let token = localStorage.getItem('access_token')
       axios({
         method:'GET',
-        url: 'http://35.225.201.56/transaction/one',
+        url: 'http://localhost:3000/transaction/one',
         headers: {
           token
         }
@@ -66,7 +66,7 @@ const store = new Vuex.Store({
       }
       axios({
         method: 'GET',
-        url: 'http://35.225.201.56/products',
+        url: 'http://localhost:3000/products',
         headers: {
           token
         }
@@ -89,7 +89,7 @@ const store = new Vuex.Store({
       Swal.showLoading()
       axios({
           method: "DELETE",
-          url: `http://35.225.201.56/products/${id}`,
+          url: `http://localhost:3000/products/${id}`,
           headers: {
             token
           }
@@ -112,7 +112,7 @@ const store = new Vuex.Store({
       let token = localStorage.getItem('access_token')
       axios({
         method: 'GET',
-        url: 'http://35.225.201.56/carts/',
+        url: 'http://localhost:3000/carts/',
         headers: {
           token
         }
@@ -134,7 +134,7 @@ const store = new Vuex.Store({
       } = payload
       axios({
         method: 'GET',
-        url: `http://35.225.201.56/carts/${id}`,
+        url: `http://localhost:3000/carts/${id}`,
         headers: {
           token
         }
@@ -150,7 +150,7 @@ const store = new Vuex.Store({
           Swal.showLoading()
           axios({
             method: 'POST',
-            url: `http://35.225.201.56/carts/${id}`,
+            url: `http://localhost:3000/carts/${id}`,
             headers: {
               token
             },
@@ -164,6 +164,7 @@ const store = new Vuex.Store({
           }) => {
             Swal.close()
             Swal.fire("Success", 'Your Cart is Created', "success");
+            context.dispatch('getCart')
           })
         } else {
           Swal.close()

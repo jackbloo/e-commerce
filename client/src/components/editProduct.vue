@@ -72,7 +72,7 @@ export default {
       editData.set("name", this.name);
       axios({
           method:'patch',
-          url: `http://35.225.201.56/products/${id}`,
+          url: `http://localhost:3000/products/${id}`,
           headers: {
             token
           },
@@ -102,7 +102,7 @@ export default {
     getOne(id) {
       axios({
         method: "GET",
-        url: `http://35.225.201.56/products/${id}`,
+        url: `http://localhost:3000/products/${id}`,
         headers: {
           token: localStorage.getItem("tokenAdmin")
         }

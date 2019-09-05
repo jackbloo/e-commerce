@@ -46,6 +46,11 @@ export default new Router({
       path: '/adminlogin',
       name: 'adminlogin',
       component: adminlogin,
+    },
+    {
+      path: '/tablecart',
+      name: 'tablecart',
+      component: () => import(/* webpackChunkName: "tablecart" */ './views/tablecart.vue'),
     }
   ]
 })

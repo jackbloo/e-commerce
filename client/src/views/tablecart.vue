@@ -54,7 +54,7 @@ export default {
   computed: mapState(["carts"]),
   methods: {
     closeModal(){
-      this.$emit('keluarModal')
+      this.$router.go(-1)
     },
     deleteCart(id) {
       Swal.fire({
@@ -75,7 +75,7 @@ export default {
           let token = localStorage.getItem("access_token");
           axios({
             method: "DELETE",
-            url: `http://35.225.201.56/carts/${id}`,
+            url: `http://localhost:3000/carts/${id}`,
             headers: {
               token
             }
@@ -95,7 +95,7 @@ export default {
       let token = localStorage.getItem('access_token')
       axios({
         method: 'GET',
-        url: 'http://35.225.201.56/carts/',
+        url: 'http://localhost:3000/carts/',
         headers: {
           token
         }
@@ -133,7 +133,7 @@ export default {
             let id = this.addedCart[k].productId
             let qPromise = axios({
               method: 'PATCH',
-              url: `http://35.225.201.56/products/${id}`,
+              url: `http://localhost:3000/products/${id}`,
               headers: {
                 token
               },
@@ -153,7 +153,7 @@ export default {
             }
             axios({
               method:'POST',
-              url: 'http://35.225.201.56/transaction/create',
+              url: 'http://localhost:3000/transaction/create',
               headers: {
                 token
               },
@@ -170,7 +170,7 @@ export default {
                 let newPStock = this.addedCart[m].productStock - this.addedCart[m].quantity
                 let cartPromise = axios({
                   method: 'PATCH',
-                  url: `http://35.225.201.56/carts/${id}`,
+                  url: `http://localhost:3000/carts/${id}`,
                   headers: {
                     token
                   },
@@ -197,9 +197,8 @@ export default {
     }
   },
   created() {
-    this.getCartss()
-
-    
+    this.$store.dispatch('getCart')
+    this.addedCart = this.carts
   }
 };
 </script>
