@@ -74,7 +74,7 @@ export default {
 
       axios({
         method: "POST",
-        url: "http://localhost:3000/products/create",
+        url: "http://35.225.201.56/products/create",
         headers: {
           token
         },

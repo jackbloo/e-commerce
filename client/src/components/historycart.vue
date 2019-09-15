@@ -72,7 +72,7 @@ export default {
             let token = localStorage.getItem("access_token");
             axios({
               method: "PATCH",
-              url: `http://localhost:3000/transaction/${id}`,
+              url: `http://35.225.201.56/transaction/${id}`,
               headers: {
                 token
               },

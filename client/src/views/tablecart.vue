@@ -53,8 +53,8 @@ export default {
   },
   computed: mapState(["carts"]),
   methods: {
-    closeModal(){
-      this.$router.go(-1)
+    closeModal() {
+      this.$router.go(-1);
     },
     deleteCart(id) {
       Swal.fire({
@@ -75,7 +75,7 @@ export default {
           let token = localStorage.getItem("access_token");
           axios({
             method: "DELETE",
-            url: `http://localhost:3000/carts/${id}`,
+            url: `http://35.225.201.56/carts/${id}`,
             headers: {
               token
             }
@@ -83,7 +83,7 @@ export default {
             .then(({ data }) => {
               Swal.close();
               Swal.fire("Success", "Your Cart is Deleted", "success");
-              this.getCartss()
+              this.getCartss();
             })
             .catch(err => {
               Swal.fire("error", "Fail to delete your cart", "error");
@@ -92,113 +92,127 @@ export default {
       });
     },
     getCartss() {
-      let token = localStorage.getItem('access_token')
+      let token = localStorage.getItem("access_token");
       axios({
-        method: 'GET',
-        url: 'http://localhost:3000/carts/',
+        method: "GET",
+        url: "http://35.225.201.56/carts/",
         headers: {
           token
         }
-      }).then(({
-        data
-      }) => {
-        this.addedCart = data.data
-      }).catch(err => {
-        console.log(err)
       })
+        .then(({ data }) => {
+          this.addedCart = data.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
-    checkout(){
-      let flag = false
-      for(let i =0; i < this.addedCart.length; i++){
-        if(this.addedCart[i].quantity <= 0){
-            flag = true
+    checkout() {
+      let flag = false;
+      for (let i = 0; i < this.addedCart.length; i++) {
+        if (this.addedCart[i].quantity <= 0) {
+          flag = true;
         }
       }
-      if(flag){
+      if (flag) {
         Swal.fire("Sorry", "Quantity must not be 0", "error");
       } else {
-        let flag2= false
-        for(let j = 0; j < this.addedCart.length;j++){
-          if(this.addedCart[j].quantity > this.addedCart[j].productStock){
-                flag2 = true
+        let flag2 = false;
+        for (let j = 0; j < this.addedCart.length; j++) {
+          if (this.addedCart[j].quantity > this.addedCart[j].productStock) {
+            flag2 = true;
           }
         }
-        if(flag2){
-          Swal.fire("error", "We dont have enough stock", "error")
+        if (flag2) {
+          Swal.fire("error", "We dont have enough stock", "error");
         } else {
-          let promises = []
-          let token = localStorage.getItem('access_token')
-          for(let k = 0; k < this.addedCart.length;k++){
-            let newStock = this.addedCart[k].productStock - this.addedCart[k].quantity
-            let id = this.addedCart[k].productId
+          let promises = [];
+          let token = localStorage.getItem("access_token");
+          for (let k = 0; k < this.addedCart.length; k++) {
+            let newStock =
+              this.addedCart[k].productStock - this.addedCart[k].quantity;
+            let id = this.addedCart[k].productId;
             let qPromise = axios({
-              method: 'PATCH',
-              url: `http://localhost:3000/products/${id}`,
+              method: "PATCH",
+              url: `http://35.225.201.56/products/${id}`,
               headers: {
                 token
               },
               data: {
                 stock: newStock
               }
-            })
-            promises.push(qPromise)
+            });
+            promises.push(qPromise);
           }
           return Promise.all(promises)
-          .then(data => {
-            this.$store.dispatch("getProducts");
-            let token = localStorage.getItem('access_token')
-            let totalPrice = 0
-            for(let l = 0; l < this.addedCart.length;l++){
-              totalPrice += (this.addedCart[l].quantity * Number(this.addedCart[l].productPrice))
-            }
-            axios({
-              method:'POST',
-              url: 'http://localhost:3000/transaction/create',
-              headers: {
-                token
-              },
-              data: {
-                totalPrice
+            .then(data => {
+              this.$store.dispatch("getProducts");
+              let token = localStorage.getItem("access_token");
+              let totalPrice = 0;
+              for (let l = 0; l < this.addedCart.length; l++) {
+                totalPrice +=
+                  this.addedCart[l].quantity *
+                  Number(this.addedCart[l].productPrice);
               }
-            }).then(({data}) => {
-              let trans = data.data
-              let transactionId = trans._id
-              let promises2 = []
-              for(let m = 0; m < this.addedCart.length; m++){
-                let newQ = this.addedCart[m].quantity
-                let id = this.addedCart[m]._id
-                let newPStock = this.addedCart[m].productStock - this.addedCart[m].quantity
-                let cartPromise = axios({
-                  method: 'PATCH',
-                  url: `http://localhost:3000/carts/${id}`,
-                  headers: {
-                    token
-                  },
-                  data : {
-                    checkout_status: true,
-                    transactionId,
-                    quantity: newQ,
-                    productStock: newPStock
-                  }
-                })
-                promises2.push(cartPromise)
-              }
-              return Promise.all(promises2)
-              .then(({data}) =>{
-                Swal.fire("Success", "Your checkout is successfully recorded!", "success")
-                this.getCartss()
-              })
+              axios({
+                method: "POST",
+                url: "http://35.225.201.56/transaction/create",
+                headers: {
+                  token
+                },
+                data: {
+                  totalPrice
+                }
+              }).then(({ data }) => {
+                let trans = data.data;
+                let transactionId = trans._id;
+                let promises2 = [];
+                Swal.fire({
+                  title: "Creating your Cart...",
+                  allowOutsideClick: () => !Swal.isLoading()
+                });
+                Swal.showLoading();
+                for (let m = 0; m < this.addedCart.length; m++) {
+                  let newQ = this.addedCart[m].quantity;
+                  let id = this.addedCart[m]._id;
+                  let newPStock =
+                    this.addedCart[m].productStock - this.addedCart[m].quantity;
+                  let cartPromise = axios({
+                    method: "PATCH",
+                    url: `http://35.225.201.56/carts/${id}`,
+                    headers: {
+                      token
+                    },
+                    data: {
+                      checkout_status: true,
+                      transactionId,
+                      quantity: newQ,
+                      productStock: newPStock
+                    }
+                  });
+                  promises2.push(cartPromise);
+                }
+                return Promise.all(promises2).then(({ data }) => {
+                  Swal.close()
+                  Swal.fire(
+                    "Success",
+                    "Your checkout is successfully recorded!",
+                    "success"
+                  );
+                  this.getCartss();
+                });
+              });
             })
-          }).catch(err => {
-            Swal.fire("error", "There is an error in checkout", "error")
-          })
+            .catch(err => {
+              Swal.fire("error", "There is an error in checkout", "error");
+            });
         }
       }
     }
   },
   created() {
-    this.$store.dispatch('getCart')
-    this.addedCart = this.carts
+    this.$store.dispatch("getCart");
+    this.addedCart = this.carts;
   }
 };
 </script>
