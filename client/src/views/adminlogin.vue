@@ -74,7 +74,7 @@ export default {
     ) {
       this.$router.push("/adminlogin").catch(err => {});
     } else {
-      this.$router.push("/").catch(err => {});
+      this.$router.push("/home").catch(err => {});
     }
 
     this.$store.dispatch("getProducts");

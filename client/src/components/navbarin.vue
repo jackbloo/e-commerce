@@ -23,7 +23,7 @@ export default {
     methods: {
         changeToLogin(){
           localStorage.removeItem('access_token')
-          this.$router.push('/').catch(err =>{})
+          this.$router.push('/home').catch(err =>{})
         },
         cartGetter(){
           this.$store.dispatch('getCart')

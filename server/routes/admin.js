@@ -4,7 +4,7 @@ const adminController = require('../controllers/admin')
 
 
 router.post('/login',adminController.loginAdmin)
-// router.post('/register',adminController.registerAdmin)
+router.post('/register',adminController.registerAdmin)
 
 
 

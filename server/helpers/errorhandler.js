@@ -8,33 +8,43 @@ function errorHandler(err, req, res, next) {
     } = err
 
     if (err.message == 'email/password not found') {
-        httpStatus = 404
-        message = err.message
+            httpStatus = 404
+            message = err.message
+            res.status(httpStatus).json({
+                message
+            })
 
     } else if (err.code == 11000) {
         httpStatus = 400
         message = 'Email is Already Registered'
+        res.status(httpStatus).json({
+            message
+        })
     } else if (err.name == 'JsonWebTokenError') {
 
         httpStatus = 401
         message = "invalid token"
+        res.status(httpStatus).json({
+            message
+        })
 
     } else if (err.name == "ValidationError") {
         httpStatus = 400
-        message = err.message
+        message = err.errors.name.message
+        let totalError = []
+        for(let key in err.errors){
+            totalError.push(err.errors[key].message)
+        }
+        res.status(httpStatus).json({
+            totalError
+        })
     } else {
-        res.status(httpStatus || 406).json({
-            code: httpStatus || 406,
+        res.status(httpStatus || 500).json({
+            code: httpStatus || 500,
             message,
             data: previousError,
             error: stack
         })
     }
-    res.status(httpStatus || 406).json({
-        code: httpStatus || 406,
-        message,
-        data: previousError,
-        error: stack
-    })
 }
 module.exports = errorHandler

@@ -22,8 +22,10 @@ export default {
   created() {
     if (localStorage.getItem("access_token")) {
       this.$router.push("/products").catch(err=>{})
-    } else {
-      this.$router.push("/").catch(err=>{})
+    } else if(localStorage.getItem("tokenAdmin")) {
+      this.$router.push("/adminLogin").catch(err=>{})
+    }else{
+      this.$router.push("/home").catch(err=>{})
     }
   }
 };

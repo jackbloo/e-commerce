@@ -1,20 +1,75 @@
 const chai = require('chai')
 const app = require('../app')
 const chaiHttp = require('chai-http')
-const Product = require('../models/product')
+const admin = require('../models/admin')
 chai.use(chaiHttp)
 const expect = chai.expect
-const adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkNWUzOGJhMWM1YjA1M2IwMTUyZjA1OCIsIm5hbWUiOiJhZG0xbiIsImlhdCI6MTU2NzEzNjUzNSwiZXhwIjoxNTY3MTQwMTM1fQ.tnw7IRpjYydOoZLbJKrGOfo_4pB_DkvSylv2Mk1ERh4'
+const product = require('../models/product')
+let adminToken = null
 let id = null
+const fs = require('fs')
+
+after(function () {
+    return admin.deleteMany({})
+})
 
 
-describe('PRODUCT TEST', function () {
+describe('PRODUCT & ADMIN TEST', function () {
+
+
+    describe('POST signin Admin', function () {
+        it('Should success with status 201 Creating admin account', function (done) {
+            let adminAcc = {
+                name: 'admin',
+                username: '4dmin',
+                password: '123456'
+            }
+            chai
+                .request(app)
+                .post('/admin/register')
+                .send(adminAcc)
+                .end(function (err, res) {
+                    expect(res).to.have.status(201)
+                    expect(res).to.be.an('object')
+                    expect(res.body.data).to.have.property('username')
+                    expect(res.body.data).to.have.property('name')
+                    expect(res.body.data).to.have.property('password')
+                    expect(res.body.data.name).to.equal(adminAcc.name)
+                    expect(res.body.data.username).to.equal(adminAcc.username)
+                    expect(res.body.data.password).to.not.equal(adminAcc.password)
+                    done()
+
+                })
+        })
+
+        it('Should success with status 200 get Admin Token', function (done) {
+            let adminAcc = {
+                username: '4dmin',
+                password: '123456'
+            }
+            chai
+                .request(app)
+                .post('/admin/login')
+                .send(adminAcc)
+                .end(function (err, res) {
+                    adminToken = res.body.token
+                    expect(res).to.have.status(200)
+                    expect(res).to.be.an('object')
+                    expect(res.body).to.have.property('token').to.be.a('string')
+                    done()
+
+                })
+        })
+
+    })
+
     describe('POST /products/create', function () {
     it('Should success with status 201', function (done) {
         let product = {
             name: 'Ayam',
             price: '100000',
-            stock: 10
+            stock: 10,
+
         }
         chai
             .request(app)
@@ -42,10 +97,13 @@ describe('PRODUCT TEST', function () {
             .set('token', adminToken)
             .send(failProduct)
             .end(function (err, res) {
-
+                console.log(res.body.totalError)
                 expect(res).to.have.status(400)
-                expect(res).to.be.an('object')
-                expect(res.body).to.have.property('message')
+                expect(res.body).to.have.property('totalError')
+                expect(res.body.totalError).to.be.an('array')
+                expect(res.body.totalError).to.include('Name is required')
+                expect(res.body.totalError).to.include('Price is required')
+                expect(res.body.totalError).to.include('Stock is required')
                 done()
 
             })
@@ -99,13 +157,13 @@ describe('PRODUCT TEST', function () {
                 })
         })
 
-    it('Should fail with status 404', function (done) {
+    it('Should fail with status 500', function (done) {
         chai
             .request(app)
             .get('/products/3422342323')
             .set('token', adminToken)
             .end(function (err, res) {
-                expect(res).to.have.status(406)
+                expect(res).to.have.status(500)
                 expect(res).to.be.an('object')
                 done()
             })
@@ -128,13 +186,13 @@ describe('PRODUCT TEST', function () {
                 })
     })
 
-        it('Should fail with status 406', function (done) {
+        it('Should fail with status 500', function (done) {
             chai
                 .request(app)
                 .delete('/products/1234')
                 .set('token', adminToken)
                 .end(function (err, res) {
-                    expect(res).to.have.status(406)
+                    expect(res).to.have.status(500)
                     expect(res).to.be.an('object')
                     done()
                 })
@@ -161,7 +219,7 @@ describe('PRODUCT TEST', function () {
 
     })
 
-        it('Should fail with status 404', function (done) {
+        it('Should fail with status 500', function (done) {
             let productUpdate = {
                 name: 'Ayam',
                 price: 100000,
@@ -174,7 +232,7 @@ describe('PRODUCT TEST', function () {
                 .send(productUpdate)
                 .set('token', adminToken)
                 .end(function (err, res) {
-                    expect(res).to.have.status(406)
+                    expect(res).to.have.status(500)
                     expect(res).to.be.an('object')
                     done()
                 })

@@ -39,7 +39,7 @@ export default {
         showConfirmButton: false,
         timer: 1500
       });
-      this.$router.push('/').catch(err=>{})
+      this.$router.push('/home').catch(err=>{})
     }
   }
 };

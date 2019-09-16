@@ -1,7 +1,13 @@
 # E-commerce
 Best E-Commerce in Town!
 
+## Deploy Link
+
+http://mamszcollective.jackbloo.com
+
 ## Installation
+
+Server 
 
     npm install
 
@@ -9,6 +15,19 @@ For running
 
     npm run dev
 
+Client
+
+    npm install
+
+For running
+
+    npm run serve
+
+Testing 
+
+For running
+
+    npm run start
 
 ## Routing
 
@@ -20,11 +39,17 @@ Includes SignIn, Google SignIn, and Regisitration
 
 ## POST /user/signin
 
-To Sign In without using google authorization
+* **URL** 
 
-    url: 'http://localhost:3000/user/signin'
-    headers: token *required*,
-    body: {
+    http://34.87.37.210/user/signin
+* **METHOD** 
+
+    POST
+* **URL Params**
+
+    **none**
+* **Data Params** 
+
         email:{
             type: string
             required: true
@@ -33,25 +58,45 @@ To Sign In without using google authorization
             type: string
             required: true
         }
-    },
-    response status: {
-        success: {
-            status: 200,
-            token
-        }
-    }
 
+* **Success Response** 
+
+        {
+            message: 'Login Success'
+            status: 200
+        }
+
+* **Error Response** 
+
+        {
+            httpStatus: 400,
+            message: 'Wrong Email/Password'
+        }
+        or
+        {
+            httpStatus: 404,
+            message: 'Email Not Found'    
+        }
 
 ## POST /user/register
 
 To Register Account in E-Commerce
 
-    url: 'http://localhost:3000/user/register'
-    headers: none,
-    body: {
+* **URL**
+
+    http://35.225.201.56/user/register
+* **METHOD** 
+
+    POST
+
+* **URL Params**
+
+    **none**
+* **Data Params** 
+
         name:{
-            type: string
-            required: true
+        type: string
+        required: true
         } ,
         email:{
             type: string
@@ -61,12 +106,19 @@ To Register Account in E-Commerce
             type:string,
             required:true
         }
-    },
-    response status: {
-        success: {
-            status: 201
-        }
-    }
+* **Success Response** 
+
+            {
+                message: 'Account is successfully created',
+                status: 201
+            }
+
+* **Error Response** 
+
+            {
+                message: 'Internal Sever Error'
+                status: 500
+            }
 
 ## Product Routes
 
@@ -76,129 +128,332 @@ Includes, CRUD of products, Getting current user profile
 
 User creating products 
 
-    url: 'http://localhost:3000/products/create'
-    headers: token *required*,
-    body: {
-        name:{
-            type: string
-            required: true
-        } ,
-        price:{
-            type: string
-            required: true
-        },
-        image:{
-            type:String,
-            required:true
-        },
-        stock:{
-            type:String,
-            required:true
-        },
-    },
-    response status: {
-        success: {
-            data : {
-                name,
-                price,
-                image,
-                stock,
+* **URL** 
+
+    http://35.225.201.56/products/create
+
+* **METHOD** 
+
+    POST
+
+* **Headers**
+
+    tokenAdmin:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+
+* **URL Params**
+
+    **none**
+* **Data Params** 
+
+        {
+            name:{
+                type: string
+                required: true
+            } ,
+            price:{
+                type: string
+                required: true
+            },
+            image:{
+                type:String,
+                required:true
+            },
+            stock:{
+                type:String,
+                required:true
+            }
+        }
+
+* **Success Response** 
+
+
+        {
+            data: {
+                name:{
+                    type: string
+                    required: true
+                } ,
+                price:{
+                    type: string
+                    required: true
+                },
+                image:{
+                    type:String,
+                    required:true
+                },
+                stock:{
+                    type:String,
+                    required:true
+                }
             },
             status: 201
         }
-    }
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
+        }
+
 
 
 ## PATCH /products/:id
 
 User can update their products
 
-    url: 'http://localhost:3000/products/:id'
-    headers: token *required*,
-    body: {
-        name:{
-            type: String
-        } ,
-        price:{
-            type: String
-        },
-        image:{
-            type: String,
-        },
-        stock:{
-            type: String
-        }
-    }, 
-    response status: {
-        success: {
-            data : {
-                updatedData
+* **URL**
+
+    http://35.225.201.56/products/:id
+* **METHOD** 
+
+    PATCH
+
+* **Headers**
+
+    tokenAdmin:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+* **URL Params**
+
+    id=[string]
+
+* **Data Params** 
+
+        {
+            name:{
+                type: String
+            } ,
+            price:{
+                type: String
             },
-            status: 201
+            image:{
+                type: String,
+            },
+            stock:{
+                type: String
+            }
         }
-    }
+
+* **Success Response** 
+
+
+        {
+            data: {
+                name:{
+                    type: string
+                    required: true
+                } ,
+                price:{
+                    type: string
+                    required: true
+                },
+                image:{
+                    type:String,
+                    required:true
+                },
+                stock:{
+                    type:String,
+                    required:true
+                }
+            },
+            status: 200
+        }
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
+        }
+
 
 ## DELETE /products/:id
 
 Deleting User's products
 
-    url: 'http://localhost:3000/products/:id'
-    headers: token *required*
-    body: none,
-    response status: {
-        success: {
-            data : {
-                name,
-                price,
-                stock,
-                image
+* **URL** 
+
+    http://35.225.201.56/products/:id
+
+* **METHOD** 
+
+    DELETE
+
+* **Headers**
+
+    tokenAdmin:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+* **URL Params**
+
+    id=[string]
+
+* **Data Params** 
+
+    **none**
+
+* **Success Response** 
+
+
+        {
+            data: {
+                name:{
+                    type: string
+                    required: true
+                } ,
+                price:{
+                    type: string
+                    required: true
+                },
+                image:{
+                    type:String,
+                    required:true
+                },
+                stock:{
+                    type:String,
+                    required:true
+                }
             },
             status: 200
         }
-    }
+
+* **Error Response** 
+
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
+        }
+        or
+        {
+            httpStatus: 404,
+            message: 'Product Not Found'    
+        }
+
+
 
 ## GET /products/
 
 Get All Products
 
-    url: 'http://localhost:3000/products',
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            name : {
-                type: string
-            },
-            data:{
-                name,
-                price,
-                image,
-                stock,
+* **URL** 
+
+    http://35.225.201.56/products
+* **METHOD** 
+
+    GET
+
+* **Headers**
+
+    tokenAdmin:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+* **URL Params**
+
+    **none**
+
+* **Data Params** 
+
+    **none**
+
+* **Success Response** 
+
+        {[
+            data: {
+                name:{
+                    type: string
+                    required: true
+                } ,
+                price:{
+                    type: string
+                    required: true
+                },
+                image:{
+                    type:String,
+                    required:true
+                },
+                stock:{
+                    type:String,
+                    required:true
+                }
             },
             status: 200
+        ]}
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+
 ## GET /products/:id
 
  Get One Product
 
-    url: 'http://localhost:3000/products/:id'
-    headers: token *required*,
-    body: 
-    id: {
-        type: String
-        },
-    response status: {
-        success: {
-            data : {
-                name,
-                price,
-                image,
-                stock,
+* **URL** 
+
+    http://35.225.201.56/products/:id
+
+* **METHOD** 
+
+    GET
+
+* **Headers**
+
+    tokenAdmin:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+* **URL Params**
+
+    id=[string]
+
+* **Data Params** 
+
+    **none**
+
+* **Success Response** 
+
+        {
+        data: {
+            name:{
+                type: string
+                required: true
+            } ,
+            price:{
+                type: string
+                required: true
             },
-            status: 200
-        }
+            image:{
+                type:String,
+                required:true
+            },
+            stock:{
+                type:String,
+                required:true
+            }
+        },
+        status: 200
     }
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
+        }
+        or
+        {
+            httpStatus: 404,
+            message: 'Product Not Found'    
+        }
 
 ## Cart Routing
 
@@ -208,154 +463,396 @@ Include CRUD of cart
 
 User creating Carts
 
-    url: 'http://localhost:3000/carts/:id'
-    headers: token *required*,
-    body: {
-       productName: {
-        type: String,
-        required: true
-    },
-    productPrice: {
-        type: String,
-        required: true
-    },
-    quantity:{
-        type: Number,
-        default: 0
-    },
-    productStock: {
-        type: Number,
-        required: true
-    },
-    checkout_status: {
-        type: Boolean,
-        default:false
-    },
-    productId: {type: Schema.Types.ObjectId, ref: 'products'},
-    UserId: {type: Schema.Types.ObjectId, ref: 'users' },
-    transactionId: {type: Schema.Types.ObjectId, ref: 'transactions'}
-    },
-    response status: {
-        success: {
-            data : {
-                productName
-                productPrice
-                quantity
-                productStock
-                checkout_status
-                productId
-                UserId
-                transactionId
+* **URL**
+
+    htttp://35.225.201.56/carts/:id
+
+* **METHOD**
+
+    POST
+
+* **Headers**
+
+    access_token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+
+* **Data Params** 
+
+        {
+            productName: {
+                type: String,
+                required: true
             },
-            status: 201
+            productPrice: {
+                type: String,
+                required: true
+            },
+            quantity:{
+                type: Number,
+                default: 0
+            },
+            productStock: {
+                type: Number,
+                required: true
+            },
+            checkout_status: {
+                type: Boolean,
+                default:false
+            },
+            productId: {type: Schema.Types.ObjectId, ref: 'products'},
+            UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+            transactionId: {type: Schema.Types.ObjectId, ref: 'transactions'}
         }
-    }
+
+* **Success Response** 
+
+
+        data: {
+                    productName: {
+                        type: String,
+                        required: true
+                    },
+                    productPrice: {
+                        type: String,
+                        required: true
+                    },
+                    quantity:{
+                        type: Number,
+                        default: 0
+                    },
+                    productStock: {
+                        type: Number,
+                        required: true
+                    },
+                    checkout_status: {
+                        type: Boolean,
+                        default:false
+                    },
+                    productId: {type: Schema.Types.ObjectId, ref: 'products'},
+                    UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+                    transactionId: {type: Schema.Types.ObjectId, ref: 'transactions'}
+                },
+            status: 201
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
+        }
+        or
+        {
+            httpStatus: 404,
+            message: 'Product Not Found'    
+        }
+
 
 
 ## PATCH /carts/:id
 
 User can update their carts
 
-    url: 'http://localhost:3000/carts/:id'
-    headers: token *required*,
-    body: {
-        productName
-        productPrice
-        quantity
-        productStock
-        checkout_status
-        productId
-        UserId
-        transactionId
-    }, 
-    response status: {
-        success: {
-            data : {
-        productName
-        productPrice
-        quantity
-        productStock
-        checkout_status
-        productId
-        UserId
-        transactionId
+* **URL** 
+
+    http://35.225.201.56/carts/:id
+
+* **METHOD**
+
+    PATCH
+
+* **Headers**
+
+    access_token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+    
+* **Data Params**
+
+        {
+                productName: {
+                    type: String,
+                    required: true
+                },
+                productPrice: {
+                    type: String,
+                    required: true
+                },
+                quantity:{
+                    type: Number,
+                    default: 0
+                },
+                productStock: {
+                    type: Number,
+                    required: true
+                },
+                checkout_status: {
+                    type: Boolean,
+                    default:false
+                },
+                productId: {type: Schema.Types.ObjectId, ref: 'products'},
+                UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+                transactionId: {type: Schema.Types.ObjectId, ref: 'transactions'}
+            }
+
+
+* **Success Response** 
+
+        data: {
+                productName: {
+                    type: String,
+                    required: true
+                },
+                productPrice: {
+                    type: String,
+                    required: true
+                },
+                quantity:{
+                    type: Number,
+                    default: 0
+                },
+                productStock: {
+                    type: Number,
+                    required: true
+                },
+                checkout_status: {
+                    type: Boolean,
+                    default:false
+                },
+                productId: {type: Schema.Types.ObjectId, ref: 'products'},
+                UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+                transactionId: {type: Schema.Types.ObjectId, ref: 'transactions'}
             },
-            status: 201
+            status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+        or
+        {
+            httpStatus: 404,
+            message: 'Cart Not Found'    
+        }
+
 
 ## DELETE /carts/:id
 
 Deleting User's carts
 
-    url: 'http://localhost:3000/carts/:id'
-    headers: token *required*
-    body: none,
-    response status: {
-        success: {
-            data : {
-        productName
-        productPrice
-        quantity
-        productStock
-        checkout_status
-        productId
-        UserId
-        transactionId
+* **URL** 
+
+     http://35.225.201.56/carts/:id
+
+* **METHOD**
+
+    DELETE
+
+* **Headers**
+
+    access_token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+
+* **Data Params** 
+
+    **none**
+
+* **Success Response** 
+
+        data: {
+            productName: {
+                type: String,
+                required: true
             },
-            status: 200
+            productPrice: {
+                type: String,
+                required: true
+            },
+            quantity:{
+                type: Number,
+                default: 0
+            },
+            productStock: {
+                type: Number,
+                required: true
+            },
+            checkout_status: {
+                type: Boolean,
+                default:false
+            },
+            productId: {type: Schema.Types.ObjectId, ref: 'products'},
+            UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+            transactionId: {type: Schema.Types.ObjectId, ref: 'transactions'}
+        },
+        status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+        or
+        {
+            httpStatus: 404,
+            message: 'Cart Not Found'    
+        }
+
 
 ## GET /carts/
 
 Get All carts
-    url: 'http://localhost:3000/carts',
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            name : {
-                type: string
+
+
+* **URL** 
+
+    http://35.225.201.56/carts
+
+* **METHOD**
+
+    GET
+
+* **Headers**
+
+    access_token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    **none**
+
+* **Data Params**
+
+    **none**
+
+* **Success Response** 
+
+        data: [{
+            productName: {
+                type: String,
+                required: true
             },
-            data:{
-            productName
-            productPrice
-            quantity
-            productStock
-            checkout_status
-            productId
-            UserId
-            transactionId
+            productPrice: {
+                type: String,
+                required: true
             },
-            status: 200
+            quantity:{
+                type: Number,
+                default: 0
+            },
+            productStock: {
+                type: Number,
+                required: true
+            },
+            checkout_status: {
+                type: Boolean,
+                default:false
+            },
+            productId: {type: Schema.Types.ObjectId, ref: 'products'},
+            UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+            transactionId: {type: Schema.Types.ObjectId, ref: 'transactions'}
+        }],
+        status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+        or
+        {
+            httpStatus: 404,
+            message: 'Cart Not Found'    
+        }
+
 ## GET /carts/:id
 
  Get One cart
 
-    url: 'http://localhost:3000/carts/:id'
-    headers: token *required*,
-    body: 
-    id: {
-        type: String
-        },
-    response status: {
-        success: {
-            data : {
-        productName
-        productPrice
-        quantity
-        productStock
-        checkout_status
-        productId
-        UserId
-        transactionId
+ * **URL** 
+
+    http://35.225.201.56/carts/:id
+
+* **METHOD**
+
+    GET
+
+* **Headers**
+
+    access_token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+
+* **Data Params**
+
+    **none**
+
+* **Success Response** 
+
+        data: [{
+            productName: {
+                type: String,
+                required: true
             },
-            status: 200
+            productPrice: {
+                type: String,
+                required: true
+            },
+            quantity:{
+                type: Number,
+                default: 0
+            },
+            productStock: {
+                type: Number,
+                required: true
+            },
+            checkout_status: {
+                type: Boolean,
+                default:false
+            },
+            productId: {type: Schema.Types.ObjectId, ref: 'products'},
+            UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+            transactionId: {type: Schema.Types.ObjectId, ref: 'transactions'}
+        }],
+        status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+        or
+        {
+            httpStatus: 404,
+            message: 'Cart Not Found'    
+        }
 
 ## Admin Routing
 
@@ -365,26 +862,56 @@ Include Login of Admin
 
 Admin login
 
-    url: 'http://localhost:3000/carts/:id'
-    headers: token *required*,
-    body: {
-    username: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    },
-    response status: {
-        success: {
-            data : {
-                token
-            },
-            status: 201
+
+* **URL** 
+
+    http://35.225.201.56/admin/login
+
+* **METHOD**
+
+    POST
+
+* **Headers**
+
+    **none**
+
+* **URL Params**
+
+    **none**
+
+* **Data Params** 
+
+        {
+        email: {
+            type: String,
+            required: true
+        },
+        password: {
+            type: String,
+            required: true
         }
-    }
+
+* **Success Response** 
+
+        tokenAdmin: 
+                {
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+                }
+
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
+        }
+        or
+        {
+            httpStatus: 404,
+            message: 'Admin Not Found'    
+        }
+
+
 ## Transactions Routing
 
 Include CRUD of Transactions
@@ -393,124 +920,266 @@ Include CRUD of Transactions
 
 Creating transaction
 
-    url: 'http://localhost:3000/transaction/create'
-    headers: token *required*,
-    body: {
-       total_price:{
-        type: Number,
-        required: true
-    },
-    UserId: {type: Schema.Types.ObjectId, ref: 'users' },
-    send_status: {
-        type: Boolean,
-        default: false
-    },
-    arrived_status: {
-        type: Boolean,
-        default:false
-    }
-    },
-    response status: {
-        success: {
-            data : {
-               total_price
-                UserId
-                send_status
-                arrived_status
+* **URL** 
+* **METHOD**
+
+* **Headers**
+
+    access_ token:
+
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    **none**
+
+* **Data Params**
+
+        {
+            total_price:{
+                type: Number,
+                required: true
             },
-            status: 201
+            UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+            send_status: {
+                type: Boolean,
+                default: false
+            },
+            arrived_status: {
+                type: Boolean,
+                default:false
+            }
         }
-    }
+
+* **Success Response** 
+
+        data: {
+            total_price:{
+                type: Number,
+                required: true
+            },
+            UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+            send_status: {
+                type: Boolean,
+                default: false
+            },
+            arrived_status: {
+                type: Boolean,
+                default:false
+            }
+        },
+        status: 201
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
+        }
 
 
 ## PATCH /transaction/:id
 
 Updating transaction
 
-    url: 'http://localhost:3000/transaction/:id'
-    headers: token *required*,
-    body: {
-    total_price
-    UserId
-    send_status
-    arrived_status
-    }, 
-    response status: {
-        success: {
-            data : {
-       total_price
-        UserId
-        send_status
-        arrived_status
-            },
-            status: 201
-        }
-    }
+* **URL** 
 
+    http://35.225.201.56/transaction/:id
+
+* **METHOD**
+
+    PATCH
+
+* **Headers**
+
+    access_token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+
+* **Data Params** 
+
+        {
+            total_price:{
+                type: Number,
+                required: true
+            },
+            UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+            send_status: {
+                type: Boolean,
+                default: false
+            },
+            arrived_status: {
+                type: Boolean,
+                default:false
+            }
+        }
+
+
+* **Success Response**
+
+        data: {
+            total_price:{
+                type: Number,
+                required: true
+            },
+            UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+            send_status: {
+                type: Boolean,
+                default: false
+            },
+            arrived_status: {
+                type: Boolean,
+                default:false
+            }
+        },
+        status: 200
+
+* **Error Response** 
+
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
+        }
+        or
+        {
+            httpStatus: 404,
+            message: 'Transaction Not Found'    
+        }
 
 ## GET /transaction/
 
 Get All transactions
 
-    url: 'http://localhost:3000/transaction',
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
-            name : {
-                type: string
+* **URL** 
+
+    http://35.225.201.56/transaction
+
+* **METHOD**
+
+
+    GET
+
+* **Headers**
+
+    access_token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    **none**
+
+* **Data Params** 
+
+    **none**
+
+* **Success Response** 
+
+        name: {
+            type: string
+        },
+        data: [{
+            total_price:{
+                type: Number,
+                required: true
             },
-            data:{
-         total_price
-        UserId
-        send_status
-        arrived_status
+            UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+            send_status: {
+                type: Boolean,
+                default: false
             },
-            status: 200
+            arrived_status: {
+                type: Boolean,
+                default:false
+            }
+        }],
+        status: 200
+
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
+
+
 ## GET /transaction/:id
 
  Get One transaction
 
-    url: 'http://localhost:3000/transaction/:id'
-    headers: token *required*,
-    body: 
-    id: {
-        type: String
-        },
-    response status: {
-        success: {
-            data : {
-       total_price
-        UserId
-        send_status
-        arrived_status
+* **URL**
+
+    http://35.225.201.56/transaction/:id
+
+* **METHOD**
+
+    GET
+
+* **Headers**
+
+    token:
+
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkN2UyZmQ4Mjk3ZmRhMGY3ODZjYmI2YSIsIm5hbWUiOiJzZW5pb3JpdGEiLCJlbWFpbCI6InNlbmlvcml0YUBnbWFpbC5jb20iLCJpYXQiOjE1Njg2MTQ5MDUsImV4cCI6MTU2ODYxODUwNX0.tLObHGmGbouyoPErXgxLXb3IZ13zBkX_Sr8FT5y7BgE
+        
+ 
+* **URL Params**
+
+    id=[string]
+
+* **Data Params** 
+
+    **none**
+
+* **Success Response** 
+
+        data: {
+            total_price:{
+                type: Number,
+                required: true
             },
-            status: 200
-        }
-    }
+            UserId: {type: Schema.Types.ObjectId, ref: 'users' },
+            send_status: {
+                type: Boolean,
+                default: false
+            },
+            arrived_status: {
+                type: Boolean,
+                default:false
+            }
+        },
+        status: 200    
+
+* **Error Response** 
+
+
 
     
 
 
-
-#ERROR
+# ERROR
 
 ## Error Handling
 
 Form of Error Handling
 
 
-      code: httpStatus || 406,
+      status: httpStatus || 406,
       message,
 
 
 ## 400
 Error caused by the Users ('Bad request')
 
-      code: 400,
-      'Email is already Registered',
+      status: 400,
+      message: 'Email is already Registered',
 
 
 
@@ -518,28 +1187,28 @@ Error caused by the Users ('Bad request')
 Error due to the unauthorization
 
 
-      code: 401,
-      'Not Authorized',
+      status: 401,
+      message: 'Not Authorized',
 
 
 
 ## 403
 Error caused by Token
 
-      code: 403,
-      'Token Undefined',
+      status: 403,
+      message: 'Token Undefined',
 
 
 
 ## 404
 Error caused by Token
 
-      code: 404,
-      'Not Found',
+      status: 404,
+      message: 'Not Found',
 
 
 ## 500
 Error cause by Internal Server Error
 
-      code: 500,
-      'Internal Server Error',
+      status: 500,
+      message: 'Internal Server Error',

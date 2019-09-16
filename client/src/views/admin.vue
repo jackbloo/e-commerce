@@ -49,7 +49,7 @@
 <script>
 import navbar from "../components/navbar";
 import axios from "axios";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 export default {
   components: {
     navbar
@@ -62,6 +62,11 @@ export default {
   },
   methods: {
     loginAdmin() {
+      Swal.fire({
+        title: "Loggin in ...",
+        allowOutsideClick: () => !Swal.isLoading()
+      });
+      Swal.showLoading();
       axios({
         method: "POST",
         url: "http://35.225.201.56/admin/login",
@@ -71,6 +76,7 @@ export default {
         }
       })
         .then(({ data }) => {
+          Swal.close()
           localStorage.setItem("tokenAdmin", data.token);
           Swal.fire({
             position: "center",
@@ -79,7 +85,7 @@ export default {
             showConfirmButton: false,
             timer: 1500
           });
-          this.$router.push("/adminlogin").catch(err=>{})
+          this.$router.push("/adminlogin").catch(err => {});
         })
         .catch(err => {
           Swal.fire({

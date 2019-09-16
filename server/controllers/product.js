@@ -7,7 +7,12 @@ class ProductController {
             price,
             stock
         } = req.body
-        let featured_image = req.file.cloudStoragePublicUrl
+        let featured_image = null
+        if(req.file){
+            featured_image = req.file.cloudStoragePublicUrl 
+        } else {
+            featured_image = 'test'
+        }
         Product.create({
             name,
             price,

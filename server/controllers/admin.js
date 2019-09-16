@@ -14,9 +14,7 @@ class adminController {
            res.status(201).json({
                data
            })
-        }).catch(err => {
-            res.send(err.message)
-        })
+        }).catch(next)
     }
 
     static loginAdmin(req,res,next){
@@ -48,9 +46,7 @@ class adminController {
                     message: 'Username/Password Not Found'
                 })
             } 
-        }).catch(err => {
-            next(err)
-        })
+        }).catch(next)
     }
 }
 
